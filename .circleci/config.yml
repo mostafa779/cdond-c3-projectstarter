@@ -133,14 +133,6 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
       - notify_on_failure
-  notify_on_success:
-    docker:
-    image: cing/base:stable
-    steps:
-      - slack/notify:
-          event: pass
-          channel: cicd
-          template: success_tagged_deployment_1
 #   deploy-infrastructure:
 #     docker:
 #       # Docker image here that supports AWS CLI
@@ -305,6 +297,14 @@ jobs:
 #             then
 #               # your code here
 #             fi
+  notify_on_success:
+    docker:
+      - image: cing/base:stable
+    steps:
+      - slack/notify:
+          event: pass
+          channel: cicd
+          template: success_tagged_deployment_1
             
 
 workflows:
@@ -320,6 +320,22 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
+      - notify_on_success:
+          requires:
+            - build-frontend
+            - build-backend
+            - test-frontend
+            - test-backend
+            - scan-backend
+            - scan-frontend
+            # - deploy-infrastructure
+            # - configure-infrastructure
+            # - run-migrations
+            # - deploy-frontend
+            # - deploy-backend
+            # - smoke-test
+            # - cloudfront-update
+            # - cleanup
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
@@ -339,19 +355,3 @@ workflows:
       #     requires: [smoke-test]
       # - cleanup:
       #     requires: [cloudfront-update]
-      - notify_on_success:
-          requires:
-            - build-frontend
-            - build-backend
-            - test-frontend
-            - test-backend
-            - scan-backend
-            - scan-frontend
-            # - deploy-infrastructure
-            # - configure-infrastructure
-            # - run-migrations
-            # - deploy-frontend
-            # - deploy-backend
-            # - smoke-test
-            # - cloudfront-update
-            # - cleanup
