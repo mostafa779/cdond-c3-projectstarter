@@ -4,7 +4,7 @@ orbs:
   slack: circleci/slack@4.10.1
 
 commands:
-  notifyOnFaliure:
+  notify_on_failure:
     steps:
       - slack/notify:
           event: fail
@@ -59,7 +59,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - notifyOnFaliure
+      - notify_on_failure
 
   build-backend:
     docker:
@@ -77,7 +77,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - notifyOnFaliure
+      - notify_on_failure
 
   test-frontend:
     docker:
@@ -92,7 +92,7 @@ jobs:
             cd frontend
             npm install
             npm run test
-      - notifyOnFaliure
+      - notify_on_failure
                 
   test-backend:
     docker:
@@ -107,7 +107,7 @@ jobs:
             cd backend
             npm install
             npm run test
-      - notifyOnFaliure
+      - notify_on_failure
             
   scan-frontend:
     docker:
@@ -120,7 +120,7 @@ jobs:
             cd frontend
             npm install
             npm audit fix --audit-level=critical --force
-      - notifyOnFaliure
+      - notify_on_failure
 
   scan-backend:
     docker:
@@ -133,7 +133,7 @@ jobs:
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
-      - notifyOnFaliure
+      - notify_on_failure
 
 #   deploy-infrastructure:
 #     docker:
