@@ -310,6 +310,7 @@ jobs:
 workflows:
   default:
     jobs:
+      - notify_on_success
       - build-frontend
       - build-backend
       - test-frontend:
@@ -320,14 +321,14 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notify_on_success:
-          requires:
-            - build-frontend
-            - build-backend
-            - test-frontend
-            - test-backend
-            - scan-backend
-            - scan-frontend
+      # - notify_on_success:
+      #     requires:
+      #       - build-frontend
+      #       - build-backend
+      #       - test-frontend
+      #       - test-backend
+      #       - scan-backend
+      #       - scan-frontend
             # - deploy-infrastructure
             # - configure-infrastructure
             # - run-migrations
