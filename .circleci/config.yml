@@ -133,7 +133,14 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
       - notify_on_failure
-
+  notify_on_success:
+    docker:
+    image: cing/base:stable
+    steps:
+      - slack/notify:
+          event: pass
+          channel: cicd
+          template: success_tagged_deployment_1
 #   deploy-infrastructure:
 #     docker:
 #       # Docker image here that supports AWS CLI
@@ -332,3 +339,6 @@ workflows:
       #     requires: [smoke-test]
       # - cleanup:
       #     requires: [cloudfront-update]
+      - notify_on_success:
+          requires:
+            - *
