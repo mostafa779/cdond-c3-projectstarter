@@ -344,15 +344,15 @@ workflows:
           filters:
             branches:
               only: [test-feature-branch]
-      - notify_on_success:
-          requires:
-            - build-frontend
-            - build-backend
-            - test-frontend
-            - test-backend
-            - scan-backend
-            - scan-frontend
-            - deploy-infrastructure
+      # - notify_on_success:
+      #     requires:
+      #       - build-frontend
+      #       - build-backend
+      #       - test-frontend
+      #       - test-backend
+      #       - scan-backend
+      #       - scan-frontend
+      #       - deploy-infrastructure
             # - configure-infrastructure
             # - run-migrations
             # - deploy-frontend
