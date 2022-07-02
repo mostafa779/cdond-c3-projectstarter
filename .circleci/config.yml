@@ -283,11 +283,12 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
       - install_ansible
+      - install_nodejs
       - add_ssh_keys:
           fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
       - attach_workspace:
@@ -299,8 +300,6 @@ jobs:
           command: |
             cd backend
             npm install
-            apk install gzip
-            apk add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
@@ -315,28 +314,28 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-  smoke-test:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - install_awscli
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-      - run:
-          name: Get backend url
-          command: |
-            # your code here
-      - run:
-          name: Backend smoke test.
-          command: |
-            # your code here
-      - run:
-          name: Frontend smoke test.
-          command: |
-            # your code here
+  # smoke-test:
+  #   docker:
+  #     - image: python:3.7-alpine3.11
+  #   steps:
+  #     - checkout
+  #     - install_awscli
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Get backend url
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Backend smoke test.
+  #         command: |
+  #           # your code here
+  #     - run:
+  #         name: Frontend smoke test.
+  #         command: |
+  #           # your code here
       # Here's where you will add some code to rollback on failure  
 
 #   cloudfront-update:
@@ -385,7 +384,7 @@ workflows:
   default:
     jobs:
       - build-frontend
-      # - build-backend
+      - build-backend
       # - test-frontend:
       #     requires: [build-frontend]
       # - test-backend:
