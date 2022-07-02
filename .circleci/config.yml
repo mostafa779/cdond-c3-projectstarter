@@ -157,6 +157,7 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
       - notify_on_failure
+  
   deploy-infrastructure:
     docker:
       - image: cimg/base:stable
