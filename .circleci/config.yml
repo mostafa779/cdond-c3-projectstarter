@@ -239,7 +239,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: cimg/node:18.4.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
@@ -249,7 +249,8 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
-            npm install
+            apk update
+            apk add --update nodejs npm
       - run:
           name: Get backend url
           command: |
@@ -263,27 +264,34 @@ jobs:
           name: Deploy frontend objects
           command: |
             cd frontend
+            npm install
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
       - revert-migrations
                     
-#   deploy-backend:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: cimg/node:18.4.0
+    steps:
+      - checkout
+      - install_awscli
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Deploy backend
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
