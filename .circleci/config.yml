@@ -254,10 +254,12 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            BACKEND_IP=$(aws ec2 describe-instances \
+            export BACKEND_IP=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
       - run:
@@ -266,13 +268,14 @@ jobs:
             cd frontend
             npm install
             npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
       - revert-migrations
                     
   deploy-backend:
     docker:
-      - image: cimg/node:18.4.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - install_awscli
@@ -286,12 +289,23 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # your code here
+            cd backend
+            npm install
+            apk install gzip
+            apk add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
-            # your code here
-      # Here's where you will add some code to rollback on failure  
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment
+      - revert-migrations
 
 #   smoke-test:
 #     docker:
