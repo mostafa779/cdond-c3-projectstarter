@@ -10,3 +10,16 @@
     - ansible_stdout_callback: yaml
   roles:
     - deploy
+
+  environment:
+    NODE_ENV: production
+    VERSION: "1"
+    TYPEORM_MIGRATION_DIR: "{{ lookup('env', 'TYPEORM_MIGRATION_DIR') }}"
+    TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES') }}"
+    TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS') }}"
+    TYPEORM_CONNCETION: "{{ lookup('env', 'TYPEORM_CONNCETION') }}"
+    TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
+    TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
+    TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
+    TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
+    TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
