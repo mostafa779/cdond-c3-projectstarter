@@ -301,7 +301,7 @@ jobs:
             audo apt install curl
             sudo apt add --upgrade tar
             sudo apt add --upgrade gzip
-            audo apt add --update nodejs npm
+            sudo apt add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
