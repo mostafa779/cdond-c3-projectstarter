@@ -286,6 +286,8 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - install_awscli
+      - install_ansible
       - add_ssh_keys:
           fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
       - attach_workspace:
@@ -301,7 +303,6 @@ jobs:
             apk add --upgrade tar
             apk add --upgrade gzip
             apk add --update nodejs npm
-            python -m pip install awscli
       - run:
           name: Deploy backend
           command: |
