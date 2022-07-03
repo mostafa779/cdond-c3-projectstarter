@@ -1,19 +1,46 @@
 ---
-- name: "create backend-app dir"
+- name: Creates udapeople directory
   file:
-    path: ~/backend-app
+    path: /home/ubuntu/udapeople
     state: directory
 
-- name: "unarchive backend files"
+- name: Extract Artifact on ec2 instance
   unarchive:
-    src: artifact.tar.gz
-    dist: ~/backend-app
+    src: "../../../../../artifact.tar.gz"
+    dest: "/home/ubuntu/udapeople"
 
-- name: "execute app with pm2"
+
+- name: Executing node
   shell: |
+    cd /home/ubuntu/udapeople
     npm install
-    cd ~/backend-app/dist
+    cd ./dist
     pm2 stop default
     pm2 start main.js
+
+
+
+
+
+
+
+
+# ---
+# - name: "create backend-app dir"
+#   file:
+#     path: ~/backend-app
+#     state: directory
+
+# - name: "unarchive backend files"
+#   unarchive:
+#     src: artifact.tar.gz
+#     dist: ~/backend-app
+
+# - name: "execute app with pm2"
+#   shell: |
+#     npm install
+#     cd ~/backend-app/dist
+#     pm2 stop default
+#     pm2 start main.js
 
   
