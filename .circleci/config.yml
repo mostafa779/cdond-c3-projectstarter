@@ -308,13 +308,13 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+            export TYPEORM_MIGRATION_DIR=./migrations
+            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
+            cp backend/artifact.tar.gz ./circleci/ansible/roles/depoly/files
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-# cp backend/artifact.tar.gz ./circleci/ansible/roles/depoly/files
-# export TYPEORM_MIGRATION_DIR=./migrations
-# export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-# export TYPEORM_MIGRATIONS=./migrations/*.ts
       - destroy-environment
       - revert-migrations
 
