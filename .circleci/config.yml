@@ -301,16 +301,13 @@ jobs:
             cd backend
             npm install
       - run:
-          name: package backend
+          name: Deploy backend
           command: |
             cd backend
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
             cp backend/artifact.tar.gz ./circleci/ansible/roles/depoly/files
-      - run:
-          name: Deploy backend
-          command: |
             export TYPEORM_MIGRATION_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
