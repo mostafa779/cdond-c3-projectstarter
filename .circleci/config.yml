@@ -297,11 +297,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk update
+            apt update
             apt install curl
-            apk add --upgrade tar
-            apk add --upgrade gzip
-            apk add --update nodejs npm
+            apt add --upgrade tar
+            apt add --upgrade gzip
+            apt add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
