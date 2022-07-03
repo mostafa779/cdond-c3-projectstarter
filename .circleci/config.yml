@@ -299,9 +299,9 @@ jobs:
           command: |
             sudo apt update
             sudo apt install curl
-            sudo apt add --upgrade tar
-            sudo apt add --upgrade gzip
-            sudo apt add --update nodejs npm
+            sudo apt --upgrade tar
+            sudo apt --upgrade gzip
+            sudo apt --upgrade nodejs npm
       - run:
           name: Deploy backend
           command: |
