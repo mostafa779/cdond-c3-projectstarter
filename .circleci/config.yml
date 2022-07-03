@@ -94,7 +94,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: cimg/node:18.4.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -112,7 +112,7 @@ jobs:
 
   test-frontend:
     docker:
-      - image: cimg/node:18.4.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -127,7 +127,7 @@ jobs:
                 
   test-backend:
     docker:
-      - image: cimg/node:18.4.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -278,83 +278,49 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - revert-migrations
       - destroy-environment
+      - revert-migrations
                     
-  # deploy-backend:
-  #   docker:
-  #     - image: cimg/base:stable
-  #   steps:
-  #     - checkout
-  #     - install_awscli
-  #     - install_ansible
-  #     - add_ssh_keys:
-  #         fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
-  #     - attach_workspace:
-  #         at: ~/
-  #     - restore_cache:
-  #         keys: [backend-build]
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           sudo apt update
-  #           sudo apt install curl
-  #           sudo apt install nodejs
-  #           sudo apt install nodejs npm
-  #     - run:
-  #         name: Deploy backend
-  #         command: |
-            
-  #           cd backend
-  #           npm i
-  #           npm run build
-  #           cd ..
-  #           tar -C backend -czvf artifact.tar.gz .
-            
-  #           export TYPEORM_MIGRATION_DIR=./migrations
-  #           export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-  #           export TYPEORM_MIGRATIONS=./migrations/*.ts
-            
-  #           cd .circleci/ansible
-  #           cat inventory.txt
-  #           ansible-playbook -i inventory.txt deploy-backend.yml
-
-  #     - revert-migrations
-  #     - destroy-environment
-
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
+      - install_ansible
       - add_ssh_keys:
-          fingerprints: [70:a7:27:c0:87:29:fa:c2:3f:24:fc:2d:9c:42:f6:b3]
+          fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
       - attach_workspace:
-          at: ./workspace
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
-            apk update
-            apk add ansible 
-            apk add --upgrade tar
-            apk add --upgrade gzip
-            apk add --update nodejs npm
-            python -m pip install awscli
+            sudo apt update
+            sudo apt install curl
+            sudo apt install nodejs
+            sudo apt install nodejs npm
       - run:
           name: Deploy backend
           command: |
+            
             cd backend
-            npm install
+            npm i
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_MIGRATIONS=./migrations/*.ts
+            
+            export TYPEORM_MIGRATION_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-            ansible-playbook -i inventory.txt .circleci/ansible/deploy-backend.yml
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
+            
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+            
       - revert-migrations
       - destroy-environment
-
 
   # smoke-test:
   #   docker:
