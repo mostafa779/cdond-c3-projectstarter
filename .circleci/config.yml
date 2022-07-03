@@ -298,7 +298,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt update
-            audo apt install curl
+            sudo apt install curl
             sudo apt add --upgrade tar
             sudo apt add --upgrade gzip
             sudo apt add --update nodejs npm
