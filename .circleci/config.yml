@@ -278,8 +278,8 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - destroy-environment
       - revert-migrations
+      - destroy-environment
                     
   # deploy-backend:
   #   docker:
@@ -352,8 +352,8 @@ jobs:
             export TYPEORM_MIGRATIONS=./migrations/*.ts
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             ansible-playbook -i ./workspace/inventory.txt .circleci/ansible/deploy-backend.yml
-      - revert_migrations
-      - destroy_environment
+      - revert-migrations
+      - destroy-environment
 
 
   # smoke-test:
