@@ -106,7 +106,7 @@ jobs:
             npm install
             npm run build
       - save_cache:
-          paths: [backend/node_modules]
+          paths: [backend/modules]
           key: backend-build
       - notify_on_failure
 
@@ -301,6 +301,15 @@ jobs:
             sudo apt install curl
             sudo apt install nodejs
             sudo apt install nodejs npm
+      - run: 
+          nane: package stuff
+          command: |
+            cd backend
+            npm run build
+            tar -czf artifact.tar.gz dist/* package*
+
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
@@ -310,14 +319,34 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
             
             export TYPEORM_MIGRATION_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
-            
+
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
+      # - run:
+      #     name: Deploy backend
+      #     command: |
+            
+      #       cd backend
+      #       npm i
+      #       npm run build
+      #       cd ..
+      #       tar -C backend -czvf artifact.tar.gz .
+            
+      #       export TYPEORM_MIGRATION_DIR=./migrations
+      #       export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+      #       export TYPEORM_MIGRATIONS=./migrations/*.ts
+            
+      #       cd .circleci/ansible
+      #       cat inventory.txt
+      #       ansible-playbook -i inventory.txt deploy-backend.yml
             
       - revert-migrations
       - destroy-environment
