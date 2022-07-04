@@ -13,7 +13,7 @@
   shell: |
     cd home/ubuntu/udapeople
     npm install
-    cd ./dist
+    cd /home/ubuntu/udapeople/dist
     pm2 stop default
     pm2 start main.js
 
