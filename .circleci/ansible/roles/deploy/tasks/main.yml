@@ -1,17 +1,17 @@
 ---
-- name: "create backend-app dir"
+- name: "create udapeople dir"
   file:
-    path: /home/ubuntu/backend-app
+    path: /home/ubuntu/udapeople
     state: directory
 
 - name: "unarchive backend files"
   unarchive:
     src: "../../../../../artifact.tar.gz"
-    dest: "home/ubuntu/backend-app"
+    dest: "home/ubuntu/udapeople"
 
 - name: "execute app with pm2"
   shell: |
-    cd home/ubuntu/backend-app
+    cd home/ubuntu/udapeople
     npm install
     cd ./dist
     pm2 stop default
