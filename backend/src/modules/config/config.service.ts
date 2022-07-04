@@ -49,7 +49,7 @@ export class ConfigService {
       TYPEORM_PORT: Joi.number()
         .integer()
         .default(5432),
-      TYPEORM_MIGRATIONS: Joi.string(),
+      TYPEORM_MIGRATIONS: Joi.string().default('./src/migrations/*.ts'),
       CORS_WHITELIST: Joi.string().default(''),
       TYPEORM_LOGGING: Joi.string().default('false'),
       // AUTH0_DOMAIN: Joi.string().required(),
