@@ -311,8 +311,8 @@ jobs:
             export TYPEORM_MIGRATIONS=./migrations/*.ts
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             ansible-playbook -i ./workspace/inventory.txt .circleci/ansible/deploy-backend.yml
-      - revert_migrations
-      - destroy_environment
+      - revert-migrations
+      - destroy-environment
       # - run: 
       #     nane: package stuff
       #     command: |
