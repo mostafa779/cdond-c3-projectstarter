@@ -330,10 +330,6 @@ jobs:
       - install_awscli
       - install_nodejs
       - run:
-          name: Install dependencies
-          command: |
-            sudo apt install nodejs npm
-      - run:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
@@ -362,7 +358,8 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment  
+      - revert-migrations
+      - destroy-environment
 
 #   cloudfront-update:
 #     docker:
