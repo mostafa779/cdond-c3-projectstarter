@@ -6,7 +6,7 @@
 
 - name: "unarchive backend files"
   unarchive:
-     src: "../../../../../artifact.tar.gz"
+    src: "../../../../../artifact.tar.gz"
     dest: "/home/ubuntu/backend-app"
 
 - name: "execute app with pm2"
