@@ -291,7 +291,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
       - attach_workspace:
-          at: ~/
+          at: ./
       - restore_cache:
           keys: [backend-build]
       - run:
