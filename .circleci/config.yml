@@ -289,7 +289,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["75:33:aa:be:7c:9d:03:32:be:d6:1d:9e:41:8a:83:1f"]
       - attach_workspace:
-          at: ./workspace
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -310,7 +310,7 @@ jobs:
             export TYPEORM_MIGRATIONS_DIR=./migrations
             export TYPEORM_MIGRATIONS=./migrations/*.ts
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-            ansible-playbook -i ./workspace/inventory.txt .circleci/ansible/deploy-backend.yml
+            ansible-playbook -i inventory.txt .circleci/ansible/deploy-backend.yml
       - revert-migrations
       - destroy-environment
       # - run: 
