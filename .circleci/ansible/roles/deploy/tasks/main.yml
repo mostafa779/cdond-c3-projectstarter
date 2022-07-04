@@ -11,7 +11,7 @@
 
 - name: "execute app with pm2"
   shell: |
-    cd home/ubuntu/udapeople
+    cd /home/ubuntu/udapeople
     sudo npm install
     cd /home/ubuntu/udapeople/dist
     pm2 stop default
