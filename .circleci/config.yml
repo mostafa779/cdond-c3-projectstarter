@@ -224,11 +224,10 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - install_awscli
-      - install_nodejs
       - run:
           name: Run migrations
           command: |
@@ -442,8 +441,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
