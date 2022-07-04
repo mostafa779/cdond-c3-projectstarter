@@ -1,17 +1,17 @@
 ---
 - name: "create backend-app dir"
   file:
-    path: ~/backend-app
+    path: /home/ubuntu/backend-app
     state: directory
 
 - name: "unarchive backend files"
   unarchive:
     src: "../../../../../artifact.tar.gz"
-    dest: "~/backend-app"
+    dest: "home/ubuntu/backend-app"
 
 - name: "execute app with pm2"
   shell: |
-    cd ~/backend-app
+    cd home/ubuntu/backend-app
     npm install
     cd ./dist
     pm2 stop default
