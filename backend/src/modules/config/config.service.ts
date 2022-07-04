@@ -41,11 +41,11 @@ export class ConfigService {
       BACKEND_PORT: Joi.number().default(3030),
       LOGGLY_SUBDOMAIN: Joi.string(),
       LOGGLY_TOKEN: Joi.string(),
-      TYPEORM_ENTITIES: Joi.string().required(),
-      TYPEORM_USERNAME: Joi.string().required(),
-      TYPEORM_PASSWORD: Joi.string().required(),
-      TYPEORM_DATABASE: Joi.string().required(),
-      TYPEORM_HOST: Joi.string().required(),
+      TYPEORM_ENTITIES: Joi.string().default('./src/modules/domain/**/*.entity.ts'),
+      TYPEORM_USERNAME: Joi.string().default('postegres'),
+      TYPEORM_PASSWORD: Joi.string().default('udapeopledb'),
+      TYPEORM_DATABASE: Joi.string().default('udapeopledb'),
+      TYPEORM_HOST: Joi.string().default('udapeopledb.cy0cglssi7by.us-east-1.rds.amazonaws.com'),
       TYPEORM_PORT: Joi.number()
         .integer()
         .default(5432),
