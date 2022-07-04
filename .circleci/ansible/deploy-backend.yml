@@ -21,7 +21,7 @@
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
       changed_when: false
 
-  environment:
+  environment: 
     - NODE_ENV: production
     - VERSION: "1"
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
