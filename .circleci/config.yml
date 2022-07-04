@@ -301,15 +301,15 @@ jobs:
             sudo apt install curl
             sudo apt install nodejs
             sudo apt install nodejs npm
-      - run: 
-          nane: package stuff
-          command: |
-            cd backend
-            npm run build
-            tar -czf artifact.tar.gz dist/* package*
+      # - run: 
+      #     nane: package stuff
+      #     command: |
+      #       cd backend
+      #       npm run build
+      #       tar -czf artifact.tar.gz dist/* package*
 
-            cd ..
-          # cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+      #       cd ..
+      #       cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
