@@ -402,7 +402,7 @@ jobs:
               export STACKS=($(aws cloudformation list-stacks \
                   --query "StackSummaries[*].Stackname" \
                   --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-              echo Stack names: "${STACKS[@]}"
+              echo Stack name: "${STACKS[@]}"
 
               export OldWorkflowID=$(curl https://kvdb.io/${KVDB_BUCKET}/old_workflow_id)
               echo $OldWorkflowID
@@ -456,19 +456,19 @@ workflows:
           requires: [smoke-test]
       - cleanup:
           requires: [cloudfront-update]
-      - notify_on_success:
-          requires:
-            - build-frontend
-            - build-backend
-            - test-frontend
-            - test-backend
-            - scan-backend
-            - scan-frontend
-            - deploy-infrastructure
-            - configure-infrastructure
-            - run-migrations
-            - deploy-frontend
-            - deploy-backend
-            - smoke-test
-            - cloudfront-update
-            - cleanup
+      # - notify_on_success:
+      #     requires:
+      #       - build-frontend
+      #       - build-backend
+      #       - test-frontend
+      #       - test-backend
+      #       - scan-backend
+      #       - scan-frontend
+      #       - deploy-infrastructure
+            # - configure-infrastructure
+            # - run-migrations
+            # - deploy-frontend
+            # - deploy-backend
+            # - smoke-test
+            # - cloudfront-update
+            # - cleanup
