@@ -320,7 +320,7 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
 
       - revert-migrations
-      # - destroy-environment
+      - destroy-environment
 
   smoke-test:
     docker:
@@ -359,8 +359,8 @@ jobs:
               return 1
             fi
 
+      - revert-migrations
       - destroy-environment
-      # - revert-migrations
 
 #   cloudfront-update:
 #     docker:
